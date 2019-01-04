@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "130375939788",
+    "firebase_url": "https://timetable-grobo.firebaseio.com",
+    "project_id": "timetable-grobo",
+    "storage_bucket": "timetable-grobo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130375939788:android:0dfb505eed0f9895",
+        "android_client_info": {
+          "package_name": "com.grobo.notifications"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "130375939788-gps83c18259mpg6iihnbkevpecg8v994.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.grobo.notifications",
+            "certificate_hash": "c49a4a9ac20a3ae8907ec31d09b6789efa72da39"
+          }
+        },
+        {
+          "client_id": "130375939788-4tctm660pm0828694fgccs4865vpjtdl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZo2Wy-1uws-q6Znt1zPIFejtnhV17RFw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "130375939788-4tctm660pm0828694fgccs4865vpjtdl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130375939788:android:757141250879f705",
+        "android_client_info": {
+          "package_name": "com.grobo.timetablesem2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "130375939788-or4o92r8hbd92eusmngscb2ch2v1845c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.grobo.timetablesem2",
+            "certificate_hash": "c49a4a9ac20a3ae8907ec31d09b6789efa72da39"
+          }
+        },
+        {
+          "client_id": "130375939788-4tctm660pm0828694fgccs4865vpjtdl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZo2Wy-1uws-q6Znt1zPIFejtnhV17RFw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "130375939788-4tctm660pm0828694fgccs4865vpjtdl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
