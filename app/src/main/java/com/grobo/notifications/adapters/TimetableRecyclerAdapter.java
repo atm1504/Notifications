@@ -3,19 +3,27 @@ package com.grobo.notifications.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.auth.User;
 import com.grobo.notifications.R;
 import com.grobo.notifications.models.TimetableItem;
 
+import java.util.List;
+
 public class TimetableRecyclerAdapter extends RecyclerView.Adapter<TimetableRecyclerAdapter.TimetableViewHolder> {
 
-    private TimetableItem timetableItem;
+    private List<TimetableItem> timetableItemList;
+    private Context mContext;
 
-    public TimetableRecyclerAdapter(){}
+    public TimetableRecyclerAdapter(Context context,List<TimetableItem> timetableItemList){
+        this.mContext = context;
+        this.timetableItemList = timetableItemList;
+    }
 
     @NonNull
     @Override
@@ -34,14 +42,24 @@ public class TimetableRecyclerAdapter extends RecyclerView.Adapter<TimetableRecy
     @Override
     public void onBindViewHolder(@NonNull TimetableViewHolder timetableViewHolder, int i) {
 
+
+        if(timetableItemList.get(i) != null) {
+
+ //           Log.e("mylogmessage11", timetableItemList.get(i).getsubject());
+
+
+        TimetableItem timetableItem = timetableItemList.get(i);
+
         timetableViewHolder.subjectTextView.setText(timetableItem.getsubject());
         timetableViewHolder.timeTextView.setText(timetableItem.gettime());
+
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return timetableItemList.size();
     }
 
     public class TimetableViewHolder extends RecyclerView.ViewHolder{
@@ -57,8 +75,4 @@ public class TimetableRecyclerAdapter extends RecyclerView.Adapter<TimetableRecy
 
     }
 
-    public void setTimetableItem(TimetableItem timetableItem) {
-        this.timetableItem = timetableItem;
-        notifyDataSetChanged();
-    }
 }

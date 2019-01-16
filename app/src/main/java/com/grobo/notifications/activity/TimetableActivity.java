@@ -1,5 +1,6 @@
 package com.grobo.notifications.activity;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
@@ -21,10 +22,19 @@ import android.view.ViewGroup;
 
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.grobo.notifications.R;
 import com.grobo.notifications.adapters.TimetableRecyclerAdapter;
+import com.grobo.notifications.models.TimetableItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TimetableActivity extends AppCompatActivity {
 
@@ -33,7 +43,7 @@ public class TimetableActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
     private static String mDay;
-
+    private static List<TimetableItem> timetableItemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +52,7 @@ public class TimetableActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Window window = getWindow();
@@ -51,6 +62,7 @@ public class TimetableActivity extends AppCompatActivity {
         window.setStatusBarColor(ContextCompat.getColor(TimetableActivity.this, R.color.statusColor));
 
         timetableFragmentAdapter = new TimetableFragmentAdapter(getSupportFragmentManager());
+        timetableItemList = new ArrayList<TimetableItem>();
 
         mViewPager = (ViewPager) findViewById(R.id.tt_container);
         mViewPager.setAdapter(timetableFragmentAdapter);
@@ -88,6 +100,10 @@ public class TimetableActivity extends AppCompatActivity {
         private TimetableRecyclerAdapter ttRecyclerAdapter;
         private RecyclerView ttRecyclerView;
 
+        private FirebaseDatabase mFirebaseDatabase;
+        private DatabaseReference mTimetableDatabaseReference;
+        private ChildEventListener mChildEventListener;
+
         public DayFragment() {
         }
 
@@ -102,6 +118,11 @@ public class TimetableActivity extends AppCompatActivity {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+
+            mFirebaseDatabase = FirebaseDatabase.getInstance();
+            mTimetableDatabaseReference = mFirebaseDatabase.getReference().child("1801").child("ee");
+            mTimetableDatabaseReference.keepSynced(true);
+
 
             switch (getArguments().getInt("dayNumber")){
 
@@ -133,12 +154,37 @@ public class TimetableActivity extends AppCompatActivity {
             ttRecyclerView = (RecyclerView) rootView.findViewById(R.id.tt_recycler_view);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             ttRecyclerView.setLayoutManager(layoutManager);
+            ttRecyclerView.setHasFixedSize(true);
 
-            ttRecyclerAdapter = new TimetableRecyclerAdapter();
-            ttRecyclerView.setAdapter(ttRecyclerAdapter);
+            mTimetableDatabaseReference.child(mDay).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    timetableItemList.clear();
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        TimetableItem timetableItem = dataSnapshot1.getValue(TimetableItem.class);
+                        timetableItemList.add(timetableItem);
+                    }
+                    ttRecyclerAdapter = new TimetableRecyclerAdapter(getContext(), timetableItemList);
+                    ttRecyclerView.setAdapter(ttRecyclerAdapter);
+                    ttRecyclerAdapter.notifyDataSetChanged();
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
 
             return rootView;
         }
+
+        @Override
+        public void onDestroyView() {
+            super.onDestroyView();
+            timetableItemList.clear();
+        }
+
     }
 
 

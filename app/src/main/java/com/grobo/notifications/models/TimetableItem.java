@@ -16,6 +16,11 @@ public class TimetableItem {
         this.subjectName = subjectName;
     }
 
+    public TimetableItem(String time, String subject){
+        this.time = time;
+        this.subject = subject;
+    }
+
     public String getsubject() {
         return subject;
     }
