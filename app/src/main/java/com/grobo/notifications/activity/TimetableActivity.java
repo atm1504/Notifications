@@ -2,8 +2,7 @@ package com.grobo.notifications.activity;
 
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.grobo.notifications.R;
@@ -43,12 +44,19 @@ public class TimetableActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Window window = getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        window.setStatusBarColor(ContextCompat.getColor(TimetableActivity.this, R.color.statusColor));
+
         timetableFragmentAdapter = new TimetableFragmentAdapter(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.tt_container);
         mViewPager.setAdapter(timetableFragmentAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tt_tab_layout);
+        tabLayout.setupWithViewPager(mViewPager);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
@@ -123,7 +131,7 @@ public class TimetableActivity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_timetable, container, false);
 
             ttRecyclerView = (RecyclerView) rootView.findViewById(R.id.tt_recycler_view);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             ttRecyclerView.setLayoutManager(layoutManager);
 
             ttRecyclerAdapter = new TimetableRecyclerAdapter();
