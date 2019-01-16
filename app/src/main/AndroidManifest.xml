@@ -12,11 +12,10 @@
         <activity
             android:name=".activity.TimetableActivity"
             android:label="@string/title_activity_timetable"
-            android:parentActivityName=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.grobo.notifications.activity.MainActivity" />
+                android:value=".activity.MainActivity" />
         </activity>
         <activity
             android:name=".activity.MainActivity"
@@ -29,6 +28,19 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.EditTimetableActivity" />
+
+        <service android:name=".services.FcmService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_color"
+                android:resource="@color/statusColor" />
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_channel_id"
+                android:value="@string/default_notification_channel_id" />
+        </service>
     </application>
 
 </manifest>
