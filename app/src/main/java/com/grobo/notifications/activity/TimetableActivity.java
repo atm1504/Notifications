@@ -3,11 +3,9 @@ package com.grobo.notifications.activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,9 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -89,7 +84,7 @@ public class TimetableActivity extends AppCompatActivity {
         private TimetableRecyclerAdapter ttRecyclerAdapter;
         private RecyclerView ttRecyclerView;
 
-        private FirebaseDatabase mFirebaseDatabase;
+        private FirebaseDatabase mFirebase;
         private DatabaseReference mTimetableDatabaseReference;
         private ChildEventListener mChildEventListener;
 
@@ -108,9 +103,16 @@ public class TimetableActivity extends AppCompatActivity {
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-            mFirebaseDatabase = FirebaseDatabase.getInstance();
-            mTimetableDatabaseReference = mFirebaseDatabase.getReference().child("1801").child("ee");
+            mFirebase = FirebaseDatabase.getInstance();
+            mTimetableDatabaseReference = mFirebase.getReference().child("1801").child("ee");
             mTimetableDatabaseReference.keepSynced(true);
+
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_timetable, container, false);
 
 
             switch (getArguments().getInt("dayNumber")){
@@ -133,47 +135,50 @@ public class TimetableActivity extends AppCompatActivity {
                 default:
 
             }
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_timetable, container, false);
 
             ttRecyclerView = (RecyclerView) rootView.findViewById(R.id.tt_recycler_view);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             ttRecyclerView.setLayoutManager(layoutManager);
             ttRecyclerView.setHasFixedSize(true);
 
-            mTimetableDatabaseReference.child(mDay).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    timetableItemList.clear();
-                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                        TimetableItem timetableItem = dataSnapshot1.getValue(TimetableItem.class);
-                        timetableItemList.add(timetableItem);
-                    }
-                    ttRecyclerAdapter = new TimetableRecyclerAdapter(getContext(), timetableItemList);
-                    ttRecyclerView.setAdapter(ttRecyclerAdapter);
-                    ttRecyclerAdapter.notifyDataSetChanged();
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
+            mTimetableDatabaseReference.child(mDay).addValueEventListener(vListener);
 
             return rootView;
         }
 
+        ValueEventListener vListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                timetableItemList.clear();
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    TimetableItem timetableItem = dataSnapshot1.getValue(TimetableItem.class);
+                    timetableItemList.add(timetableItem);
+                }
+                ttRecyclerAdapter = new TimetableRecyclerAdapter(getContext(), timetableItemList);
+                ttRecyclerView.setAdapter(ttRecyclerAdapter);
+                ttRecyclerAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
         @Override
         public void onDestroyView() {
-            super.onDestroyView();
             timetableItemList.clear();
+            mTimetableDatabaseReference.child(mDay).removeEventListener(vListener);
+            super.onDestroyView();
         }
 
+        @Override
+        public void onPause() {
+            timetableItemList.clear();
+            mTimetableDatabaseReference.child(mDay).removeEventListener(vListener);
+            super.onPause();
+        }
     }
 
 

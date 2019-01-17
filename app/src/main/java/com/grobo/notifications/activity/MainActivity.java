@@ -17,13 +17,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;
 import com.grobo.notifications.R;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private FirebaseDatabase mfirebase;
+    private static FirebaseDatabase mfirebase;
 
 
     @Override
@@ -115,12 +116,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void getDatabase() {
-        if (mfirebase == null) {
+        if (FirebaseApp.getApps(this).size() == 0) {
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            FirebaseDatabase.getInstance().setPersistenceCacheSizeBytes(25000000);
         }
-        mfirebase = FirebaseDatabase.getInstance();
-
-        mfirebase.setPersistenceCacheSizeBytes(25000000);
     }
 
     private void createNotificationChannel() {
