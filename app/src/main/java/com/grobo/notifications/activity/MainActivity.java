@@ -1,8 +1,18 @@
 package com.grobo.notifications.activity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,11 +22,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.FirebaseDatabase;
 import com.grobo.notifications.R;
+import com.grobo.notifications.fragments.AttendenceFragment;
+import com.grobo.notifications.fragments.CalenderFragment;
+import com.grobo.notifications.fragments.ExamFragment;
+import com.grobo.notifications.fragments.FeedFragment;
+import com.grobo.notifications.fragments.HomeFragment;
+import com.grobo.notifications.fragments.LinksFragment;
+import com.grobo.notifications.fragments.MessFragment;
+import com.grobo.notifications.fragments.NotificationsFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static FirebaseDatabase mfirebase;
+    private final String TAG = getClass().getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +48,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        createNotificationChannel();
+        getDatabase();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -79,25 +106,123 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        switch (id){
+            case R.id.nav_timetable:
+                openTimetable();
+                break;
+            case R.id.nav_calender:
+                openCalender();
+                break;
+            case R.id.nav_notifications:
+                openNotifications();
+                break;
+            case R.id.nav_home:
+                openHome();
+                break;
+            case R.id.nav_attendence:
+                openAttendance();
+                break;
+            case R.id.nav_mess:
+                openMess();
+                break;
+            case R.id.nav_exam:
+//                openExam();
+                Toast.makeText(this, "Yaar, exam to aane de!!", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_links:
+                openLinks();
+                break;
+            case R.id.nav_feed:
+                openFeed();
+                break;
+            default:
+                Toast.makeText(this, "coming soon", Toast.LENGTH_SHORT).show();
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+
+    private void openCalender(){
+        CalenderFragment calenderFragment = new CalenderFragment();
+        updateFragment(calenderFragment);
+    }
+    private void openTimetable(){
+        startActivity(new Intent(MainActivity.this, TimetableActivity.class));
+    }
+    private void openNotifications(){
+        NotificationsFragment notificationsFragment = new NotificationsFragment();
+        updateFragment(notificationsFragment);
+    }
+    private void openHome(){
+//        NavUtils.navigateUpFromSameTask(this);
+        HomeFragment homeFragment = new HomeFragment();
+        updateFragment(homeFragment);
+    }
+    private void openAttendance(){
+        AttendenceFragment attendenceFragment = new AttendenceFragment();
+        updateFragment(attendenceFragment);
+    }
+    private void openMess(){
+        MessFragment messFragment = new MessFragment();
+        updateFragment(messFragment);
+    }
+    private void openExam(){
+        ExamFragment examFragment = new ExamFragment();
+        updateFragment(examFragment);
+    }
+    private void openLinks(){
+        LinksFragment linksFragment = new LinksFragment();
+        updateFragment(linksFragment);
+    }
+    private void openFeed(){
+        FeedFragment feedFragment = new FeedFragment();
+        updateFragment(feedFragment);
+    }
+
+    private void getDatabase() {
+        if (FirebaseApp.getApps(this).size() == 0) {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            FirebaseDatabase.getInstance().setPersistenceCacheSizeBytes(25000000);
+        }
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "FCM channel";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(getString(R.string.default_notification_channel_id), name, importance);
+            channel.enableLights(true);
+            channel.setLightColor(Color.BLUE);
+
+            channel.enableVibration(true);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    public void updateFragment(Fragment fragment) {
+        Log.d(TAG, "updateFragment: " + fragment.toString());
+        Bundle bundle = fragment.getArguments();
+        if (bundle == null) {
+            bundle = new Bundle();
+        }
+        fragment.setArguments(bundle);
+        FragmentManager manager = getSupportFragmentManager();
+
+        FragmentTransaction transaction = manager.beginTransaction();
+
+        transaction.replace(R.id.frame_layout_main, fragment, fragment.getTag());
+        transaction.addToBackStack(fragment.getTag()).commit();
     }
 }

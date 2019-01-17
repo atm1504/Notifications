@@ -5,33 +5,53 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_home"
+            android:icon="@drawable/baseline_home_24"
+            android:title="Home" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_feed"
+            android:icon="@drawable/baseline_rss_feed_24"
+            android:title="Feed" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_notifications"
+            android:icon="@drawable/baseline_notifications_none_24"
+            android:title="Notifications" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_calender"
+            android:icon="@drawable/baseline_calendar_today_24"
+            android:title="Calender" />
+        <item
+            android:id="@+id/nav_timetable"
+            android:icon="@drawable/baseline_schedule_24"
+            android:title="Timetable" />
+        <item
+            android:id="@+id/nav_attendence"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="Attendence" />
+        <item
+            android:id="@+id/nav_mess"
+            android:icon="@drawable/baseline_restaurant_24"
+            android:title="Mess Menu" />
+        <item
+            android:id="@+id/nav_exam"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Exam Section" />
+        <item
+            android:id="@+id/nav_links"
+            android:icon="@drawable/baseline_insert_link_24"
+            android:title="Links" />
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_connect"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="Connect" />
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/baseline_share_24"
+                android:title="Share" />
         </menu>
     </item>
 
