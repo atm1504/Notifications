@@ -6,23 +6,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/baseline_home_24"
             android:title="Home" />
         <item
             android:id="@+id/nav_feed"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/baseline_rss_feed_24"
             android:title="Feed" />
         <item
             android:id="@+id/nav_notifications"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/baseline_notifications_none_24"
             android:title="Notifications" />
         <item
             android:id="@+id/nav_calender"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/baseline_calendar_today_24"
             android:title="Calender" />
         <item
             android:id="@+id/nav_timetable"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/baseline_schedule_24"
             android:title="Timetable" />
         <item
             android:id="@+id/nav_attendence"
@@ -30,7 +30,7 @@
             android:title="Attendence" />
         <item
             android:id="@+id/nav_mess"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/baseline_restaurant_24"
             android:title="Mess Menu" />
         <item
             android:id="@+id/nav_exam"
@@ -38,7 +38,7 @@
             android:title="Exam Section" />
         <item
             android:id="@+id/nav_links"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/baseline_insert_link_24"
             android:title="Links" />
     </group>
 
@@ -50,7 +50,7 @@
                 android:title="Connect" />
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/baseline_share_24"
                 android:title="Share" />
         </menu>
     </item>
