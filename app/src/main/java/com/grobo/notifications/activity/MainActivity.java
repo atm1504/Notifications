@@ -11,7 +11,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -41,12 +40,14 @@ public class MainActivity extends AppCompatActivity
 
     private static FirebaseDatabase mfirebase;
     private final String TAG = getClass().getName();
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Aman Jee (1801EE03)");
         setSupportActionBar(toolbar);
 
         createNotificationChannel();
@@ -69,6 +70,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        openHome();
     }
 
     @Override
@@ -121,8 +124,8 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_home:
                 openHome();
                 break;
-            case R.id.nav_attendence:
-                openAttendance();
+            case R.id.nav_explore:
+                openExplore();
                 break;
             case R.id.nav_mess:
                 openMess();
@@ -138,7 +141,7 @@ public class MainActivity extends AppCompatActivity
                 openFeed();
                 break;
             default:
-                Toast.makeText(this, "coming soon", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -151,39 +154,39 @@ public class MainActivity extends AppCompatActivity
 
     private void openCalender(){
         CalenderFragment calenderFragment = new CalenderFragment();
-        updateFragment(calenderFragment);
+        updateFragment(calenderFragment, 1);
     }
     private void openTimetable(){
         startActivity(new Intent(MainActivity.this, TimetableActivity.class));
     }
     private void openNotifications(){
         NotificationsFragment notificationsFragment = new NotificationsFragment();
-        updateFragment(notificationsFragment);
+        updateFragment(notificationsFragment, 1);
     }
     private void openHome(){
 //        NavUtils.navigateUpFromSameTask(this);
         HomeFragment homeFragment = new HomeFragment();
-        updateFragment(homeFragment);
+        updateFragment(homeFragment, 0);
     }
-    private void openAttendance(){
+    private void openExplore(){
         AttendenceFragment attendenceFragment = new AttendenceFragment();
-        updateFragment(attendenceFragment);
+        updateFragment(attendenceFragment, 1);
     }
     private void openMess(){
         MessFragment messFragment = new MessFragment();
-        updateFragment(messFragment);
+        updateFragment(messFragment, 1);
     }
     private void openExam(){
         ExamFragment examFragment = new ExamFragment();
-        updateFragment(examFragment);
+        updateFragment(examFragment, 1);
     }
     private void openLinks(){
         LinksFragment linksFragment = new LinksFragment();
-        updateFragment(linksFragment);
+        updateFragment(linksFragment, 1);
     }
     private void openFeed(){
         FeedFragment feedFragment = new FeedFragment();
-        updateFragment(feedFragment);
+        updateFragment(feedFragment, 1);
     }
 
     private void getDatabase() {
@@ -211,7 +214,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void updateFragment(Fragment fragment) {
+    public void updateFragment(Fragment fragment, int bStack) {
         Log.d(TAG, "updateFragment: " + fragment.toString());
         Bundle bundle = fragment.getArguments();
         if (bundle == null) {
@@ -221,8 +224,14 @@ public class MainActivity extends AppCompatActivity
         FragmentManager manager = getSupportFragmentManager();
 
         FragmentTransaction transaction = manager.beginTransaction();
-
         transaction.replace(R.id.frame_layout_main, fragment, fragment.getTag());
-        transaction.addToBackStack(fragment.getTag()).commit();
+
+        if (bStack ==1) {
+            transaction.addToBackStack(fragment.getTag());
+        } else if (bStack == 0){
+            manager.popBackStack();
+            transaction.disallowAddToBackStack();
+        }
+        transaction.commit();
     }
 }

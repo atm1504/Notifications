@@ -6,9 +6,38 @@
     tools:context=".fragments.MessFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <fragment
+            android:id="@+id/mess_fr_qr"
+            android:name="com.grobo.notifications.fragments.MessFragment$QRFragment"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_below="@id/mess_fr_qr"
+                android:layout_margin="8dp"
+                android:id="@+id/mess_tv_cur"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:text="Currently Selected Mess"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/mess_tv_cur"
+                android:textSize="20sp"
+                android:text="MESS 1"/>
+
+    </RelativeLayout>
 
 </FrameLayout>
