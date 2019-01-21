@@ -40,12 +40,14 @@ public class MainActivity extends AppCompatActivity
 
     private static FirebaseDatabase mfirebase;
     private final String TAG = getClass().getName();
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Aman Jee (1801EE03)");
         setSupportActionBar(toolbar);
 
         createNotificationChannel();
