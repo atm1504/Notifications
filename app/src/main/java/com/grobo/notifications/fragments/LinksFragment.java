@@ -18,7 +18,7 @@ import com.grobo.notifications.R;
  */
 public class LinksFragment extends Fragment {
 
-    private TextView tvWebMail, tvLibRes, tvLibCat, tvReg;
+    private TextView tvWebMail, tvLibRes, tvLibCat, tvReg, tvPrevQuest, tvIntranet, tvLateFee, tvInstiRepo, tvInterRel;
 
     public LinksFragment() {
         // Required empty public constructor
@@ -33,7 +33,7 @@ public class LinksFragment extends Fragment {
         tvWebMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                browserIntent("https://www.facebook.com");
+                browserIntent("https://mail.iitp.ac.in");
             }
         });
 
@@ -41,7 +41,7 @@ public class LinksFragment extends Fragment {
         tvLibRes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                browserIntent("https://www.facebook.com");
+                browserIntent("http://library.iitp.ac.in/");
             }
         });
 
@@ -49,7 +49,7 @@ public class LinksFragment extends Fragment {
         tvLibCat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                browserIntent("https://www.facebook.com");
+                browserIntent("http://172.16.1.6:8080/webopac/html/SearchForm");
             }
         });
 
@@ -57,7 +57,47 @@ public class LinksFragment extends Fragment {
         tvReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                browserIntent("https://www.facebook.com");
+                browserIntent("https://172.16.1.230/student/login2.asp");
+            }
+        });
+
+        tvPrevQuest = (TextView) rootView.findViewById(R.id.tv_prev_ques);
+        tvPrevQuest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                browserIntent("http://172.16.52.180/oldpapers");
+            }
+        });
+
+        tvIntranet = (TextView) rootView.findViewById(R.id.tv_intranet);
+        tvIntranet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                browserIntent("http://172.16.1.6/");
+            }
+        });
+
+        tvLateFee = (TextView) rootView.findViewById(R.id.tv_late_fee);
+        tvLateFee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                browserIntent("https://www.onlinesbi.com/sbicollect/icollecthome.htm");
+            }
+        });
+
+        tvInstiRepo = (TextView) rootView.findViewById(R.id.tv_institute_repo);
+        tvInstiRepo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                browserIntent("http://idr.iitp.ac.in/jspui");
+            }
+        });
+
+        tvInterRel = (TextView) rootView.findViewById(R.id.tv_inter_rel);
+        tvInterRel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                browserIntent("https://172.16.1.4/ir/");
             }
         });
 
