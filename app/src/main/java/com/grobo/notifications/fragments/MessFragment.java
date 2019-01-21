@@ -27,4 +27,23 @@ public class MessFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_mess, container, false);
     }
 
+
+
+    public static class QRFragment extends Fragment {
+
+
+        public QRFragment() {
+            // Required empty public constructor
+        }
+
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            // Inflate the layout for this fragment
+            return inflater.inflate(R.layout.fragment_qr, container, false);
+        }
+
+    }
 }
+
